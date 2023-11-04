@@ -9,5 +9,5 @@ print("Requirements HE", requirements)
 setup(
     name='DesktopAutomationFramework', 
     version='0.0.1',  
-    requires=requirements
+    install_requires=requirements
 )
