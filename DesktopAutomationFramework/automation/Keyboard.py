@@ -1,11 +1,15 @@
 import time
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Key as _k, Controller as _c
+
+from .Keys import convert_to_original_key, MyKey as _mk
 
 from ..framework.Decorators.AutomationDecorator import AutomationHook
 
-kboard = Controller()
+kboard = _c()
 
 class keyboard:
+    key = _mk
+
     @AutomationHook
     @staticmethod
     def write(text: str):
@@ -13,14 +17,15 @@ class keyboard:
 
     @AutomationHook
     @staticmethod
-    def keys(*args: Key | str, repeat_times: int = 1, repeat_interval_s: float = 0.3):
+    def keys(*args: _mk | str, repeat_times: int = 1, repeat_interval_s: float = 0.3):
         keys = [item.lower() if isinstance(item, str) else item for item in args]
+        keys = [convert_to_original_key(item) if not isinstance(item, str) else item for item in keys]
 
         for _ in range(repeat_times):
             # Press all keys
             for key in keys:
                 kboard.press(key)
-            
+
             # Release all keys
             for key in keys:
                 try:

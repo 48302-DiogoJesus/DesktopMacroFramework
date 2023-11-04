@@ -34,9 +34,11 @@ class windows:
         windows = gw.getWindowsWithTitle(partial_title)
 
         if windows:
+            # gw.getActiveWindow().minimize()
             # If there are multiple windows with the partial title, choose the first one
             window = windows[0]
             window.activate()
+            window.show()
             return True
         else:
             return False

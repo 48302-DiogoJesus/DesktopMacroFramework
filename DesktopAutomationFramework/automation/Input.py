@@ -15,22 +15,27 @@ class input:
 
     @AutomationHook
     @staticmethod
-    def alert(text: str, title: str = ""):
+    def message(text: str, title: str = ""):
         return  _alert(text, title, _tkinter=False)
 
     @AutomationHook
     @staticmethod
-    def confirm(text: str, title: str = "", buttons: Any = (OK, CANCEL)):
+    def confirm(text: str, title: str = "") -> bool:
+        return _confirm(text, title, buttons=(YES, NO), _tkinter=False) == YES
+    
+    @AutomationHook
+    @staticmethod
+    def customWindow(text: str, title: str = "", buttons: Any = (OK, CANCEL)):
         return _confirm(text, title, buttons, _tkinter=False)
 
     @AutomationHook
     @staticmethod
-    def prompt(text: str, title: str = "", default: str = ""):
+    def ask(text: str, title: str = "", default: str = ""):
         return _prompt(text, title, default)
 
     @AutomationHook
     @staticmethod
-    def optionMenu(*options: str, stop_if_no_selection: bool = True):
+    def options(*options: str, stop_if_no_selection: bool = True):
         selected_option = None
 
         def on_select(option):

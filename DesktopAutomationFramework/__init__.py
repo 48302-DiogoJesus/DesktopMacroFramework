@@ -10,6 +10,3 @@ from .automation.Common import wait, end
 
 ## Framework Functionality
 from .framework.Decorators.MacroDecorator import Macro
-
-## External Libraries w/ transparent access
-from pynput.keyboard import Key

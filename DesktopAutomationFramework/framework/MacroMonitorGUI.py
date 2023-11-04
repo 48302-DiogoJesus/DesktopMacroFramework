@@ -14,7 +14,7 @@ class MacroMonitorGUI:
         onUpdate: Callable[[], None]
     ) -> None:
         self.root = tk.Tk()
-        self.root.title(f"Macro Monitor: [{macro_name}]")
+        self.root.title("Monitor") # Minimalist name to avoid conflict with window.select() by title
         self.root.attributes('-topmost', 1) # Make window always on top
         screen_width = self.root.winfo_screenwidth()
         window_width = 400

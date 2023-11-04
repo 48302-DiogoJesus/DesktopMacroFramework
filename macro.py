@@ -1,34 +1,23 @@
-from DesktopAutomationFramework import keyboard, input, windows, vars, Macro, Key, wait, end
+from DesktopAutomationFramework import keyboard, windows, input, vars, Macro, wait, end
+
+""" 
+TODO
+- DONE fix window.select
+- DONE Key comes by importing keyboard
+    - LATER Simplify key selection
+- Add characters as Keys ?
+- + check other modules
+- try to hide irrelevant imports
+"""
 
 @Macro(interval_s=1)
 def macro():
-    # while True:
-    #     print(vars.time.second)
-    #     time.sleep(1)
+    keyboard.keys(keyboard.key.win)
+    keyboard.write("notepad++")
+    keyboard.keys(keyboard.key.enter)
+    windows.wait("notepad++", 2)
     
-    print(vars.time.strftime("%d-%m-%Y %H:%M:%S"))
-    end()
+    windows.select("macroframe")
 
-    option = input.optionMenu("variante 1", "variante 2", "variante 3", stop_if_no_selection=True)
-
-    if option == "variante1":
-        # Do this
-        pass
-    else:
-        # Do that        
-        pass
-
-    keyboard.keys(Key.ctrl, Key.alt, Key.tab)
-    keyboard.keys(Key.right, repeat_times=2, repeat_interval_s=1)
-
-    result = input.confirm("Do you want to continue?", buttons=(input.YES, input.NO))
-    if result != input.YES:
-        end()
-
-    keyboard.keys(Key.cmd)
-    if True:
-        keyboard.write("two")
-    keyboard.keys(Key.cmd)
-    keyboard.write("three")
 
 macro()
