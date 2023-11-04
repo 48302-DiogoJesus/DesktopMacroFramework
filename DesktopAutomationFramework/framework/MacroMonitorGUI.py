@@ -22,7 +22,7 @@ class MacroMonitorGUI:
         x_position = screen_width - window_width
         y_position = 0
         self.root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
-        title = tk.Label(self.root, text=macro_name, font=("Arial", 18))
+        title = tk.Label(self.root, text=f"Macro: {macro_name}", font=("Arial", 18))
         self.label = tk.Label(self.root, text="Status: " + MacroStatus.READY.name, font=("Arial", 15))
         updateBtn = tk.Button(self.root, text="Update", command=onUpdate, font=("Arial", 12))
         startBtn = tk.Button(self.root, text="Start", command=onStart, font=("Arial", 12))
