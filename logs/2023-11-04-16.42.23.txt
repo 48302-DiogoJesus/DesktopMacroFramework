@@ -1,3 +1,0 @@
-[2023-11-04 16:42:25] [CALL] automation.Variables.strftime (<automation.Variables._t object at 0x00000274A4694350>, '%d-%m-%Y %H:%M:%S')
-[2023-11-04 16:42:25] [RESULT] 04-11-2023 16:42:25
-[2023-11-04 16:42:26] [CALL] automation.Common.end ()
