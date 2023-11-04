@@ -1,6 +1,7 @@
 import inspect
-from framework.types.MacroStatus import MacroStatus
-from framework.Variables import RVariables, RWVariables
+
+from ..framework.types.MacroStatus import MacroStatus
+from ..framework.Variables import RVariables, RWVariables
 
 def handleMasterEventsWhileRunning(func, args):
     if RWVariables.stopMacro:

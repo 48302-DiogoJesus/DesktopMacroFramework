@@ -1,10 +1,10 @@
 import os
 import sys
 import threading
-from framework.MacroMonitorGUI import MacroMonitorGUI
 
-from framework.Logger import Logger
-from framework.types.MacroStatus import MacroStatus
+from ..framework.MacroMonitorGUI import MacroMonitorGUI
+from ..framework.Logger import Logger
+from ..framework.types.MacroStatus import MacroStatus
 
 # READ-ONLY
 class RVariables:

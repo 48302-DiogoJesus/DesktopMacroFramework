@@ -2,49 +2,62 @@ import tkinter as tk
 from typing import Any
 from pymsgbox import alert as _alert, confirm as _confirm, prompt as _prompt, OK_TEXT as OK, YES_TEXT as YES, NO_TEXT as NO, CANCEL_TEXT as CANCEL, IGNORE_TEXT as IGNORE, CONTINUE_TEXT as CONTINUE, RETRY_TEXT as RETRY
 
-from framework.Decorators.AutomationDecorator import AutomationHook
+from ..framework.Decorators.AutomationDecorator import AutomationHook
 
-@AutomationHook
-def alert(text: str, title: str = ""):
-   return  _alert(text, title, _tkinter=False)
+class input:
+    OK = OK
+    YES = YES
+    NO = NO
+    CANCEL = CANCEL
+    IGNORE = IGNORE
+    CONTINUE = CONTINUE
+    RETRY = RETRY
 
-@AutomationHook
-def confirm(text: str, title: str = "", buttons: Any = (OK, CANCEL)):
-    return _confirm(text, title, buttons, _tkinter=False)
+    @AutomationHook
+    @staticmethod
+    def alert(text: str, title: str = ""):
+        return  _alert(text, title, _tkinter=False)
 
-@AutomationHook
-def prompt(text: str, title: str = "", default: str = ""):
-    return _prompt(text, title, default)
+    @AutomationHook
+    @staticmethod
+    def confirm(text: str, title: str = "", buttons: Any = (OK, CANCEL)):
+        return _confirm(text, title, buttons, _tkinter=False)
 
-@AutomationHook
-def optionMenu(*options: str, stop_if_no_selection: bool = True):
-    selected_option = None
+    @AutomationHook
+    @staticmethod
+    def prompt(text: str, title: str = "", default: str = ""):
+        return _prompt(text, title, default)
 
-    def on_select(option):
-        nonlocal selected_option
-        selected_option = option
-        root.destroy()
+    @AutomationHook
+    @staticmethod
+    def optionMenu(*options: str, stop_if_no_selection: bool = True):
+        selected_option = None
 
-    root = tk.Tk()
-    root.title("Select an Option")
+        def on_select(option):
+            nonlocal selected_option
+            selected_option = option
+            root.destroy()
 
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    x = (screen_width - root.winfo_reqwidth()) // 2
-    y = (screen_height - root.winfo_reqheight()) // 2
-    root.geometry(f"+{x}+{y}")
+        root = tk.Tk()
+        root.title("Select an Option")
 
-    for option in options:
-        frame = tk.Frame(root, padx=10, pady=10)
-        frame.pack(fill=tk.BOTH, expand=True)
-        button = tk.Button(frame, text=option, command=lambda o=option: on_select(o))
-        button.pack(fill=tk.BOTH, expand=True)
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        x = (screen_width - root.winfo_reqwidth()) // 2
+        y = (screen_height - root.winfo_reqheight()) // 2
+        root.geometry(f"+{x}+{y}")
 
-    # root.protocol("WM_DELETE_WINDOW", root.quit)  # Handle window close button
+        for option in options:
+            frame = tk.Frame(root, padx=10, pady=10)
+            frame.pack(fill=tk.BOTH, expand=True)
+            button = tk.Button(frame, text=option, command=lambda o=option: on_select(o))
+            button.pack(fill=tk.BOTH, expand=True)
 
-    root.mainloop()
+        # root.protocol("WM_DELETE_WINDOW", root.quit)  # Handle window close button
 
-    if selected_option is None and stop_if_no_selection:
-        raise Exception("No option selected")
+        root.mainloop()
 
-    return selected_option
+        if selected_option is None and stop_if_no_selection:
+            raise Exception("No option selected")
+
+        return selected_option

@@ -1,7 +1,7 @@
 import tkinter as tk
 from typing import Callable
 
-from framework.types.MacroStatus import MacroStatus
+from ..framework.types.MacroStatus import MacroStatus
 
 class MacroMonitorGUI:
     def __init__(

@@ -1,7 +1,8 @@
 import datetime
 import time
-from framework.utils import get_source_around_line, handleMasterEventsWhileRunning
-from framework.Variables import RWVariables, RVariables
+
+from ..utils import get_source_around_line, handleMasterEventsWhileRunning
+from ..Variables import RWVariables, RVariables
 
 # Put on Automation functions
 def AutomationHook(func):

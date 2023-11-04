@@ -1,6 +1,6 @@
 from datetime import datetime as _td
 
-from framework.Decorators.AutomationDecorator import AutomationHook
+from ..framework.Decorators.AutomationDecorator import AutomationHook
 
 class _t:
     @AutomationHook
@@ -46,4 +46,5 @@ class _t:
         """
         return _td.now().strftime(format_str)
     
-time = _t()
+class vars:
+    time = _t()

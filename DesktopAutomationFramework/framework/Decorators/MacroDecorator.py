@@ -3,12 +3,12 @@ import os
 import subprocess
 import sys
 import threading
-from automation.Common import end
-from framework.MacroMonitorGUI import MacroMonitorGUI
-from framework.types.MacroStatus import MacroStatus
 
-from framework.utils import showMacroErrorGUI, tryUpdateMacroStatusGUI
-from framework.Variables import RVariables, RWVariables
+from ...automation.Common import end
+from ..MacroMonitorGUI import MacroMonitorGUI
+from ..types.MacroStatus import MacroStatus
+from ..utils import showMacroErrorGUI, tryUpdateMacroStatusGUI
+from ..Variables import RVariables, RWVariables
 
 # Put on macro function
 def Macro(interval_s: int):

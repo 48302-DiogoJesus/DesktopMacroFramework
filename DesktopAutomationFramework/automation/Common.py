@@ -1,5 +1,6 @@
 import time
-from framework.Decorators.AutomationDecorator import AutomationHook
+
+from ..framework.Decorators.AutomationDecorator import AutomationHook
 
 @AutomationHook
 def wait(seconds: int):
