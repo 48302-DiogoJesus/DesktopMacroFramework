@@ -1,7 +1,7 @@
 from DesktopAutomationFramework import keyboard, input, windows, vars, Macro, Key, wait, end
 
 @Macro(interval_s=1)
-def macros():
+def macro():
     # while True:
     #     print(vars.time.second)
     #     time.sleep(1)
@@ -31,4 +31,4 @@ def macros():
     keyboard.keys(Key.cmd)
     keyboard.write("three")
 
-macros()
+macro()
