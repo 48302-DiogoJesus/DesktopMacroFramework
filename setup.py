@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Read requirements from requirements.txt
 with open('requirements.txt', 'r') as file:
@@ -9,6 +9,6 @@ print("Requirements HE", requirements)
 setup(
     name='DesktopAutomationFramework', 
     version='0.0.1',  
-    include_dirs=["automation", "framework"],
+    packages=find_packages(),
     install_requires=requirements
 )
