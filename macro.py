@@ -1,4 +1,4 @@
-from .DesktopAutomationFramework import keyboard, input, windows, vars, Macro, Key, wait, end
+from DesktopAutomationFramework import keyboard, input, windows, vars, Macro, Key, wait, end
 
 @Macro(interval_s=1)
 def macros():

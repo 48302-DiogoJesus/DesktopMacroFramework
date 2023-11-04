@@ -1,10 +1,10 @@
 # Features
 - Create macros using normal python scripts
-  - through a library
 - Monitor window to visualize macro in real-time
   - start/pause/resume/stop macro
   - schedule macro execution for later
+- Produces Logs
 
-Install library
+Install library (from github)
 
-`pip install git+https://github.com/48302-DiogoJesus/DesktopMacroFramework`
+`pip install --upgrade --force-reinstall git+https://github.com/48302-DiogoJesus/DesktopMacroFramework`

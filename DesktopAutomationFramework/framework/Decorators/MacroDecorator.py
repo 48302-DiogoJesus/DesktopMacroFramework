@@ -4,11 +4,11 @@ import subprocess
 import sys
 import threading
 
-from ...automation.Common import end
 from ..MacroMonitorGUI import MacroMonitorGUI
 from ..types.MacroStatus import MacroStatus
 from ..utils import showMacroErrorGUI, tryUpdateMacroStatusGUI
 from ..Variables import RVariables, RWVariables
+from ..SelfUpdate import SelfUpdate
 
 # Put on macro function
 def Macro(interval_s: int):
@@ -38,6 +38,8 @@ def Macro(interval_s: int):
         command = f"pythonw \"{abs_script_location}\" {args}"
 
         schtasks_command = f"schtasks /create /sc once /tn DesktopAutomation_{RVariables.macro_name}_{start_time_str_name} /tr \"{command}\" /st {start_time_str} /F"
+
+        print("Scheduling task:", schtasks_command)
 
         try:
             result = subprocess.run(schtasks_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -88,7 +90,14 @@ def Macro(interval_s: int):
             thread.start()
             
             # ! Blocks the main thread on tkinter GUI
-            RWVariables.macroMonitorShared = MacroMonitorGUI(RVariables.macro_name, onMacroStartResume, onMacroPause,  onMacroStop, onMacroSchedule) # type: ignore
+            RWVariables.macroMonitorShared = MacroMonitorGUI(
+                RVariables.macro_name,
+                onMacroStartResume,
+                onMacroPause,
+                onMacroStop,
+                onMacroSchedule,
+                onUpdate=SelfUpdate
+            )
             RWVariables.macroMonitorShared.launchGUI()
         return wrapper
     

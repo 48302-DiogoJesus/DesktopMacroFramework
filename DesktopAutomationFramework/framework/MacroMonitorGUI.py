@@ -10,7 +10,8 @@ class MacroMonitorGUI:
         onStart: Callable[[], None],
         onPause: Callable[[], None],
         onStop:  Callable[[], None],
-        onSchedule: Callable[['MacroMonitorGUI', str], None]
+        onSchedule: Callable[['MacroMonitorGUI', str], None],
+        onUpdate: Callable[[], None]
     ) -> None:
         self.root = tk.Tk()
         self.root.title(f"Macro Monitor: [{macro_name}]")
@@ -23,17 +24,19 @@ class MacroMonitorGUI:
         self.root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
         title = tk.Label(self.root, text=macro_name, font=("Arial", 18))
         self.label = tk.Label(self.root, text="Status: " + MacroStatus.READY.name, font=("Arial", 15))
+        updateBtn = tk.Button(self.root, text="Update", command=onUpdate, font=("Arial", 12))
         startBtn = tk.Button(self.root, text="Start", command=onStart, font=("Arial", 12))
         stopBtn = tk.Button(self.root, text="Stop", command=onStop, font=("Arial", 12))
         pauseBtn = tk.Button(self.root, text="Pause", command=onPause, font=("Arial", 12))
         selected_option = tk.StringVar(self.root)
         def _onSchedule(time): onSchedule(self, time.split(' ')[0])
-        option_menu = tk.OptionMenu(self.root, selected_option, "1 mins", "5 mins", "10 mins", "30 mins", "60 mins", command=_onSchedule)
+        option_menu = tk.OptionMenu(self.root, selected_option, "1 min", "5 mins", "10 mins", "30 mins", "60 mins", command=_onSchedule)
         # Create a Listbox widget
         self.listbox = tk.Listbox(self.root, font=("Arial", 14), width=window_width) 
 
         # Packing
         title.pack(padx=5, pady=5)
+        updateBtn.pack(padx=5, pady=5)
         self.label.pack(padx=5, pady=5)
         self.listbox.pack()
         startBtn.pack(side=tk.LEFT)
