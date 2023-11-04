@@ -23,7 +23,7 @@ def macro():
 
     result = input.confirm("Do you want to continue?", buttons=(input.YES, input.NO))
     if result != input.YES:
-        exit()
+        end()
 
     keyboard.keys(Key.cmd)
     if True:
