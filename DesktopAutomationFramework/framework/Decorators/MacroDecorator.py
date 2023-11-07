@@ -12,7 +12,7 @@ from ..SelfUpdate import SelfUpdate
 from ...automation.Variables import vars
 
 # Put on macro function
-def Macro(interval_s: float):
+def Macro(*, interval_s: float):
     RWVariables.time_between_actions_s = interval_s
 
     # Start/Resume
