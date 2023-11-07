@@ -2,8 +2,9 @@
 
 ## Automation Functionality
 from .automation.Windows import windows
-from .automation.Keyboard import keyboard
+from .automation.Keyboard import keyboard, key
 from .automation.Input import input
+from .automation.Files import files
 
 from .automation.Variables import vars
 from .automation.Common import wait, end

@@ -1,39 +1,43 @@
 from datetime import datetime as _td
+import os
+import sys
 
-from ..framework.Decorators.AutomationDecorator import AutomationHook
+from DesktopAutomationFramework.framework.Variables import RVariables
+
+from ..framework.Decorators.AutomationDecorator import AutomationDecorator
 
 class _t:
-    @AutomationHook
+    @AutomationDecorator
     @property
     def year(self):
         return _td.now().year
 
-    @AutomationHook
+    @AutomationDecorator
     @property
     def month(self):
         return _td.now().month
 
-    @AutomationHook
+    @AutomationDecorator
     @property
     def day(self):
         return _td.now().day
 
-    @AutomationHook
+    @AutomationDecorator
     @property
     def hour(self):
         return _td.now().hour
 
-    @AutomationHook
+    @AutomationDecorator
     @property
     def minute(self):
         return _td.now().minute
 
-    @AutomationHook
+    @AutomationDecorator
     @property
     def second(self):
         return _td.now().second
 
-    @AutomationHook
+    @AutomationDecorator
     def strftime(self, format_str):
         """ 
         %d day    (ex: 02)
@@ -46,5 +50,43 @@ class _t:
         """
         return _td.now().strftime(format_str)
     
+
 class vars:
+    # Fixed Variables
     time = _t()
+    output_folder = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "output")
+    user_dir = "%userprofile%"
+
+    # Variables from invocation. Ex: pythonw macro.py reports_number=10 variant=FA
+    @staticmethod
+    def getString(variable_name: str) -> str:
+        """
+        Get the variable {variable_name} of type STRING from macro invocation
+        raises Error if a value was not found for the variable
+        """
+        value = getattr(vars, variable_name, None)
+        if value is None:
+            raise Exception(f"'{variable_name}' is missing. Correct Example: pythonw {sys.argv[0]} {variable_name}=your_value")
+        return str(value)
+
+    @staticmethod
+    def getNumber(variable_name: str) -> int:
+        """
+        Get the variable {variable_name} of type NUMBER from macro invocation
+        raises Error if a value was not found for the variable
+        """
+        value = getattr(vars, variable_name, None)
+        if value is None:
+            raise Exception(f"'{variable_name}' is missing. Correct Example: pythonw {sys.argv[0]} {variable_name}=your_value")
+        try:
+            return int(value)
+        except Exception as e:
+            raise Exception(f"{variable_name} = {value}. The value is not a number")
+
+
+def _populate_properties_from_command_line():
+    for arg in sys.argv[1:]:
+        key, value = arg.split('=')
+        setattr(vars, key, value)
+
+_populate_properties_from_command_line()

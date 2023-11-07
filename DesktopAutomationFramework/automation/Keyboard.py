@@ -3,19 +3,19 @@ from pynput.keyboard import Key as _k, Controller as _c
 
 from .Keys import convert_to_original_key, MyKey as _mk
 
-from ..framework.Decorators.AutomationDecorator import AutomationHook
+from ..framework.Decorators.AutomationDecorator import AutomationDecorator
 
 kboard = _c()
+key = _mk
 
 class keyboard:
-    key = _mk
 
-    @AutomationHook
+    @AutomationDecorator
     @staticmethod
     def write(text: str):
         kboard.type(text)
 
-    @AutomationHook
+    @AutomationDecorator
     @staticmethod
     def keys(*args: _mk | str, repeat_times: int = 1, repeat_interval_s: float = 0.3):
         keys = [item.lower() if isinstance(item, str) else item for item in args]

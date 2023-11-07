@@ -2,7 +2,7 @@ import tkinter as tk
 from typing import Any
 from pymsgbox import alert as _alert, confirm as _confirm, prompt as _prompt, OK_TEXT as OK, YES_TEXT as YES, NO_TEXT as NO, CANCEL_TEXT as CANCEL, IGNORE_TEXT as IGNORE, CONTINUE_TEXT as CONTINUE, RETRY_TEXT as RETRY
 
-from ..framework.Decorators.AutomationDecorator import AutomationHook
+from ..framework.Decorators.AutomationDecorator import AutomationDecorator
 
 class input:
     OK = OK
@@ -13,29 +13,32 @@ class input:
     CONTINUE = CONTINUE
     RETRY = RETRY
 
-    @AutomationHook
+    @AutomationDecorator
     @staticmethod
     def message(text: str, title: str = ""):
         return  _alert(text, title, _tkinter=False)
 
-    @AutomationHook
+    @AutomationDecorator
     @staticmethod
     def confirm(text: str, title: str = "") -> bool:
         return _confirm(text, title, buttons=(YES, NO), _tkinter=False) == YES
     
-    @AutomationHook
+    @AutomationDecorator
     @staticmethod
     def customWindow(text: str, title: str = "", buttons: Any = (OK, CANCEL)):
         return _confirm(text, title, buttons, _tkinter=False)
 
-    @AutomationHook
+    @AutomationDecorator
     @staticmethod
-    def ask(text: str, title: str = "", default: str = ""):
-        return _prompt(text, title, default)
+    def ask(text: str, title: str = "", default: str = "") -> str:
+        res = _prompt(text, title, default)
+        if res is None:
+            raise Exception("User did not answer input.ask")
+        return res
 
-    @AutomationHook
+    @AutomationDecorator
     @staticmethod
-    def options(*options: str, stop_if_no_selection: bool = True):
+    def options(*options: str):
         selected_option = None
 
         def on_select(option):
@@ -62,7 +65,7 @@ class input:
 
         root.mainloop()
 
-        if selected_option is None and stop_if_no_selection:
+        if selected_option is None:
             raise Exception("No option selected")
 
         return selected_option

@@ -12,7 +12,7 @@ class Logger:
         self.new_file()
 
     def new_file(self):
-        self.log_file_name = datetime.datetime.now().strftime("%Y-%m-%d-%H.%M.%S") + ".txt"
+        self.log_file_name = datetime.datetime.now().strftime("%Y-%m-%d %H.%M.%S") + ".txt"
 
         self.logs_path = self.macro_path + "/" + LOGS_FOLDER_NAME
         if not os.path.exists(self.logs_path):

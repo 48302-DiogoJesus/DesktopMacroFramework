@@ -9,9 +9,10 @@ from ..types.MacroStatus import MacroStatus
 from ..utils import showMacroErrorGUI, tryUpdateMacroStatusGUI
 from ..Variables import RVariables, RWVariables
 from ..SelfUpdate import SelfUpdate
+from ...automation.Variables import vars
 
 # Put on macro function
-def Macro(interval_s: int):
+def Macro(interval_s: float):
     RWVariables.time_between_actions_s = interval_s
 
     # Start/Resume
@@ -52,9 +53,16 @@ def Macro(interval_s: int):
     
     def decorator(func):
         def wrapper():
-            # Runs when macro() function is called
+            # Runs once: when macro() is called
+            if not os.path.exists(vars.output_folder):
+                os.makedirs(vars.output_folder)
+                print("Created output folder")
+            else:
+                print("Output folder already exists")
+
             def recursive_macro_runner(errored_on_previous_run: bool = False):
                 try:
+                    RWVariables.expectedWindowTitle = None
                     RVariables.logger.new_file()
                     RWVariables.macroStatus = MacroStatus.READY
                     if not errored_on_previous_run:
@@ -64,6 +72,7 @@ def Macro(interval_s: int):
                         errored_on_previous_run = False
                         # Leave the error message there
                         pass
+
                     print("[READY]")
                     
                     # Pause and wait until started
@@ -79,6 +88,8 @@ def Macro(interval_s: int):
                     error_message = str(e)
                     showMacroErrorGUI(error_message)
                     RVariables.logger.error(error_message)
+                    if RWVariables.macroMonitorShared is not None:
+                        RWVariables.macroMonitorShared.showPopup(error_message)
                 finally:
                     print("[FINISHED]")
                     # Call itself again

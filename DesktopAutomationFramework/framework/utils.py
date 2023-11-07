@@ -1,4 +1,5 @@
 import inspect
+import pygetwindow as gw
 
 from ..framework.types.MacroStatus import MacroStatus
 from ..framework.Variables import RVariables, RWVariables
@@ -21,6 +22,47 @@ def handleMasterEventsWhileRunning(func, args):
 
     RWVariables.macroStatus = MacroStatus.RUNNING
     tryUpdateMacroStatusGUI()
+    checkActiveWindow()
+
+def checkActiveWindow():
+    """ 
+    Is the active window the expected one?
+    if not try to select it
+    check again
+    if not raise exception 
+    """
+    if RWVariables.expectedWindowTitle is None: return
+    
+    try:
+        initial_window_title = str(gw.getActiveWindowTitle()).lower()
+    except: 
+        return
+    
+    if initial_window_title.find(RWVariables.expectedWindowTitle) != -1:
+        return
+    
+    # Active window is not the expected one. Try changing it
+    windows = gw.getWindowsWithTitle(RWVariables.expectedWindowTitle)
+
+    if windows:
+        window = windows[0]
+        window.activate()
+        window.show()
+
+        try:
+            actual_window_title = str(gw.getActiveWindowTitle()).lower()
+        except: 
+            return
+        
+        # Active window is not the expected one. Try changing it
+        if actual_window_title.find(RWVariables.expectedWindowTitle) != -1:
+            # SUCCESS: Able to recover (PRINTING WRONG VAR)
+            print("Recovered window", "From:", initial_window_title, "To:", RWVariables.expectedWindowTitle)
+            return
+        else:
+            raise Exception("Was not in expected window and could not recover. Expected:", RWVariables.expectedWindowTitle, "Got:", initial_window_title)
+    else:
+        raise Exception("Was not in expected window and could not recover")
 
 def get_source_around_line(window_size=8):
     frame = inspect.currentframe()

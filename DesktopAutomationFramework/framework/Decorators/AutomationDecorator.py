@@ -5,7 +5,7 @@ from ..utils import get_source_around_line, handleMasterEventsWhileRunning
 from ..Variables import RWVariables, RVariables
 
 # Put on Automation functions
-def AutomationHook(func):
+def AutomationDecorator(func):
     def wrapper(*args, **kwargs):
         handleMasterEventsWhileRunning(func, args)
 

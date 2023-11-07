@@ -1,11 +1,11 @@
 import time
 
-from ..framework.Decorators.AutomationDecorator import AutomationHook
+from ..framework.Decorators.AutomationDecorator import AutomationDecorator
 
-@AutomationHook
+@AutomationDecorator
 def wait(seconds: int):
     time.sleep(seconds)
 
-@AutomationHook
+@AutomationDecorator
 def end():
     exit()
