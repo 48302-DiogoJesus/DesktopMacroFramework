@@ -4,9 +4,12 @@ from setuptools import setup, find_packages
 with open('requirements.txt', 'r') as file:
     requirements = file.read().splitlines()
 
+with open('version.txt', 'r') as file:
+    version = file.read()
+
 setup(
     name='DesktopAutomationFramework', 
-    version='0.0.1',  
+    version=version,  
     packages=find_packages(),
     install_requires=requirements
 )
