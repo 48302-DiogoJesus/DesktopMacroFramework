@@ -6,10 +6,11 @@ def macro():
 
     ## if script is called like: pythonw macro.py reports_number=10
     reports_number: int = vars.getNumber("reports_number")
-    ## if script is called like: pythonw macro.py macro_variant=stock_e_report
-    variant: str = vars.getString("macro_variant")
+    ## if script is called like: pythonw macro.py macro_variant="variant 1"
+    ## ! NOTE: when calling the script use " " if your values have spaces, as shown in the comment above
+    variant: str = vars.getString("macro_variant", accepted_values=["variant 1", "variant 2"])
     ## if script is called like: pythonw macro.py location=FA
-    location: str = vars.getString("location")
+    location: str = vars.getString("location", accepted_values=["LX", "FA", "PT"])
 
     # KEYBOARD OPERATIONS #
 

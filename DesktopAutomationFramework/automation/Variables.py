@@ -59,7 +59,7 @@ class vars:
 
     # Variables from invocation. Ex: pythonw macro.py reports_number=10 variant=FA
     @staticmethod
-    def getString(variable_name: str) -> str:
+    def getString(variable_name: str, accepted_values: list[str] | None = None) -> str:
         """
         Get the variable {variable_name} of type STRING from macro invocation
         raises Error if a value was not found for the variable
@@ -67,10 +67,14 @@ class vars:
         value = getattr(vars, variable_name, None)
         if value is None:
             raise Exception(f"'{variable_name}' is missing. Correct Example: pythonw {sys.argv[0]} {variable_name}=your_value")
+        
+        if accepted_values is not None and value not in accepted_values:
+            raise Exception(f"{variable_name}={value}. '{value}' is not valid. Valid options: {accepted_values}")
+
         return str(value)
 
     @staticmethod
-    def getNumber(variable_name: str) -> int:
+    def getNumber(variable_name: str, accepted_values: list[int] | None = None) -> int:
         """
         Get the variable {variable_name} of type NUMBER from macro invocation
         raises Error if a value was not found for the variable
@@ -79,9 +83,13 @@ class vars:
         if value is None:
             raise Exception(f"'{variable_name}' is missing. Correct Example: pythonw {sys.argv[0]} {variable_name}=your_value")
         try:
-            return int(value)
+            value = int(value)
         except Exception as e:
             raise Exception(f"{variable_name} = {value}. The value is not a number")
+        
+        if accepted_values is not None and value not in accepted_values:
+            raise Exception(f"{variable_name}={value}. '{value}' is not valid. Valid options: {accepted_values}")
+        return value
 
 
 def _populate_properties_from_command_line():
