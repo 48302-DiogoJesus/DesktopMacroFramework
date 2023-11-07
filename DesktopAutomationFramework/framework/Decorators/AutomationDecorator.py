@@ -16,14 +16,14 @@ def AutomationDecorator(func):
 
         # Execute operation
         try:
-            RVariables.logger.write(f"[CALL] {func.__module__}.{func.__name__} {args}")
+            RVariables.logger.write(f"[CALL] {str(func.__module__).replace('DesktopAutomationFramework.', '')}.{func.__name__} {args}")
             result = func(*args, **kwargs)
             # On success
             if result is not None:
                 RVariables.logger.write(f"[RESULT] {result}")
         except Exception as e:
             # Logger (log event on error)
-            RVariables.logger.error(f"{func.__module__}.{func.__name__} {args} => Threw Exception")
+            RVariables.logger.error(f"{str(func.__module__).replace('DesktopAutomationFramework.', '')}.{func.__name__} {args} => Threw Exception")
             # Re-raise error
             raise e
         
