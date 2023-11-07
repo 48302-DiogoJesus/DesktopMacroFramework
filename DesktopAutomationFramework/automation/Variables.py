@@ -74,7 +74,7 @@ class vars:
         return str(value)
 
     @staticmethod
-    def getNumber(variable_name: str, accepted_values: list[int] | None = None) -> int:
+    def getNumber(variable_name: str, accepted_values: list[float | int] | None = None) -> float | int:
         """
         Get the variable {variable_name} of type NUMBER from macro invocation
         raises Error if a value was not found for the variable
@@ -83,7 +83,8 @@ class vars:
         if value is None:
             raise Exception(f"'{variable_name}' is missing. Correct Example: pythonw {sys.argv[0]} {variable_name}=your_value")
         try:
-            value = int(value)
+            value = float(value)
+            if value.is_integer(): value = int(value)
         except Exception as e:
             raise Exception(f"{variable_name} = {value}. The value is not a number")
         
