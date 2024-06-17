@@ -7,7 +7,7 @@ LOGS_FOLDER_NAME = "logs"
 class Logger:
     log_file_name = ""
     logs_path = ""
-    local_timezone = pytz.timezone('local')  # Get local timezone of the machine
+    local_timezone = pytz.timezone("Europe/London")
 
     def __init__(self, macro_path: str):
         self.macro_path = macro_path
