@@ -2,28 +2,28 @@ from DesktopAutomationFramework import vars, keyboard, key, windows, files, gui,
 
 @Macro(interval_s=1) # You can increase this while testing and decrease later
 def macro():
-    gui.message("1")
-    gui.message("2")
-    gui.message("3")
-    gui.message("4")
-    gui.message("5")
-    gui.message("6")
-    gui.message("7")
-    gui.message("8")
-    gui.message("9")
+    gui.show("1")
+    gui.show("2")
+    gui.show("3")
+    gui.show("4")
+    gui.show("5")
+    gui.show("6")
+    gui.show("7")
+    gui.show("8")
+    gui.show("9")
     
     if True:
         print("hey")
     else:
         print("ho")
     
-    gui.message("10")
-    gui.message("11")
-    gui.message("12")
-    gui.message("13")
-    gui.message("14")
-    gui.message("15")
-    gui.message("16")
-    gui.message("17")
+    gui.show("10")
+    gui.show("11")
+    gui.show("12")
+    gui.show("13")
+    gui.show("14")
+    gui.show("15")
+    gui.show("16")
+    gui.show("17")
 
 macro()

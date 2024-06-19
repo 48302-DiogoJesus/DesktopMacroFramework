@@ -52,7 +52,7 @@ def macro():
     # INPUT (USER INTERFACES) #
 
     ## Show a message
-    gui.message("First Stage Complete")
+    gui.show("First Stage Complete")
     ## Ask user if he wants to proceed. If the answer is NO, end the macro
     should_proceed: bool = gui.confirm("First Stage Complete. Do you want to proceed?")
     if not should_proceed:

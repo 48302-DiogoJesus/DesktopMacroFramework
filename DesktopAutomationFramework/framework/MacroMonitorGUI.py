@@ -6,9 +6,6 @@ from DesktopAutomationFramework.framework.utils import updatePlayButtonsConfigs
 
 from ..framework.types.MacroStatus import MacroStatus
 
-listbox_item_font = ("Arial", 12)
-listbox_selected_item_font = ("Arial", 12, "bold")
-
 class MacroMonitorGUI:
     def __init__(
         self,
@@ -30,18 +27,20 @@ class MacroMonitorGUI:
         x_position = screen_width - window_width
         y_position = 0
         self.root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
-        title = tk.Label(self.root, text=f"Macro: {macro_name}", font=("Arial", 18))
-        self.label = tk.Label(self.root, text="Status: " + MacroStatus.READY.name, font=("Arial", 11, "bold"))
+        title = tk.Label(self.root, text=f"'{macro_name}'", font=("Arial", 18))
+        self.label = tk.Label(self.root, text=MacroStatus.READY.name, font=("Arial", 11, "bold"))
         updateBtn = tk.Button(self.root, text="Update", command=onUpdate, font=("Arial", 12))
         self.startBtn = tk.Button(self.root, text=RVariables.start_btn_text, command=onStart, font=("Arial", 12))
         self.pauseBtn = tk.Button(self.root, text=RVariables.pause_btn_text, command=onPause, font=("Arial", 12))
         self.stopBtn = tk.Button(self.root, text=RVariables.stop_btn_text, command=lambda: onStop(True), font=("Arial", 12))
+        
         selected_option = tk.StringVar(self.root)
+        selected_option.set("Schedule Run")
         def _onSchedule(time): onSchedule(self, time.split(' ')[0])
         option_menu = tk.OptionMenu(self.root, selected_option, "1 min", "5 mins", "10 mins", "30 mins", "60 mins", command=_onSchedule)
         
         # Create a code list
-        self.listbox = tk.Listbox(self.root, font=listbox_item_font, width=window_width, ) # height=20
+        self.listbox = tk.Listbox(self.root, font=("Arial", 12), width=window_width, ) # height=20
         for code_line in source_code:
             code_line = code_line[1]
             self.listbox.insert(tk.END, code_line)
@@ -71,7 +70,7 @@ class MacroMonitorGUI:
         self.root.mainloop()
 
     def updateStatus(self, status: MacroStatus):
-        def _change(): self.label.config(text="Status: " + status.name)
+        def _change(): self.label.config(text=status.name)
         self.root.after(0, _change)
 
     def setMessage(self, msg: str):

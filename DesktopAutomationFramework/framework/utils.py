@@ -8,6 +8,8 @@ from ..framework.types.MacroStatus import MacroStatus
 from ..framework.Variables import RVariables, RWVariables
 
 def handleMasterEventsWhileRunning(func, args):
+    checkActiveWindow()
+    
     if RWVariables.stopMacro:
         RWVariables.stopMacro = False
         raise MacroStoppedError("Macro Stopped")
@@ -20,6 +22,7 @@ def handleMasterEventsWhileRunning(func, args):
     updatePlayButtonsConfigs()
     
     RVariables.resumeMacroFlag.wait()
+    checkActiveWindow()
 
     if RWVariables.stopMacro:
         RWVariables.stopMacro = False

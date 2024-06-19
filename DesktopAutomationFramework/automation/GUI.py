@@ -15,7 +15,7 @@ class gui:
 
     @AutomationDecorator
     @staticmethod
-    def message(text: str, title: str = ""):
+    def show(text: str, title: str = ""):
         return  _alert(text, title, _tkinter=False)
 
     @AutomationDecorator

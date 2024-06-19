@@ -38,7 +38,6 @@ def Macro(*, interval_s: float):
     def onMacroPause():
         if RWVariables.macroStatus is MacroStatus.RUNNING:
             RVariables.resumeMacroFlag.clear()
-            print("PAUSE")
             updatePlayButtonsConfigs()
     def onMacroStop(manual_stop: bool):
         if RWVariables.macroStatus is MacroStatus.RUNNING or RWVariables.macroStatus is MacroStatus.PAUSED:
