@@ -43,6 +43,7 @@ def updatePlayButtonsConfigs():
     if RWVariables.macroMonitorShared is None: return
     
     def _reconfig():
+        # print("RECONFIG => ", RWVariables.macroStatus)
         if RWVariables.macroMonitorShared is None: return
         if RWVariables.macroStatus is MacroStatus.READY:
             RWVariables.macroMonitorShared.startBtn.config(text=RVariables.start_btn_text, bg=ENABLED_BG, fg=ENABLED_FG)

@@ -86,10 +86,10 @@ def Macro(*, interval_s: float):
 
             def recursive_macro_runner(errored_on_previous_run: bool = False):
                 try:
-                    updatePlayButtonsConfigs()
                     RWVariables.expectedWindowTitle = None
                     RVariables.logger.new_file()
                     RWVariables.macroStatus = MacroStatus.READY
+                    updatePlayButtonsConfigs()
                     if not errored_on_previous_run:
                         tryUpdateMacroStatusGUI()
                     else:
