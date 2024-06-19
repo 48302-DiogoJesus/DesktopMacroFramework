@@ -3,3 +3,4 @@ logs/
 output/
 DesktopAutomationFramework.egg-info
 build/
+tests/
