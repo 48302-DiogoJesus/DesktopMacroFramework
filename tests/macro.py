@@ -7,5 +7,3 @@ def macro():
     gui.show("You chose: " + variante)
     
     # end()
-
-macro()

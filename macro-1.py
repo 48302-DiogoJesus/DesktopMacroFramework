@@ -25,5 +25,3 @@ def macro():
     gui.show("15")
     gui.show("16")
     gui.show("17")
-
-macro()

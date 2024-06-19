@@ -3,7 +3,6 @@ import inspect
 import time
 from typing import Any, Optional
 
-from ..types.MacroStatus import MacroStatus
 from ..utils import handleMasterEventsWhileRunning
 from ..Variables import RWVariables, RVariables
 
@@ -17,19 +16,18 @@ def AutomationDecorator(func):
         nonlocal cachedReturnValues
         handleMasterEventsWhileRunning(func, args)
 
-        current_line = inspect.stack()[1].lineno
-        hashcode = inspect.stack()[1]
-        if RWVariables.macroStartLineNumber is not None and current_line < RWVariables.macroStartLineNumber: 
-            return cachedReturnValues[current_line]
+        function_line_no = inspect.stack()[1].lineno
+        if RWVariables.macroStartLineNumber is not None and function_line_no < RWVariables.macroStartLineNumber: 
+            return cachedReturnValues[function_line_no]
         
         if RWVariables.macroMonitorShared is None: raise Exception("Macro Monitor variable was not initialized (= None)")
-        RWVariables.macroMonitorShared.updateInstruction(current_line)
+        RWVariables.macroMonitorShared.updateInstruction(function_line_no)
 
         # Execute operation
         try:
             RVariables.logger.write(f"[CALL] {str(func.__module__).replace('DesktopAutomationFramework.', '')}.{func.__name__} {args}")
             result = func(*args, **kwargs)
-            cachedReturnValues[current_line] = result
+            cachedReturnValues[function_line_no] = result
             # On success
             if result is not None:
                 RVariables.logger.write(f"[RESULT] {result}")

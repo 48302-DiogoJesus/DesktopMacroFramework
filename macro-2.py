@@ -9,5 +9,3 @@ def macro():
     gui.show("You chose 2: " + v2)
     
     end()
-
-# macro()

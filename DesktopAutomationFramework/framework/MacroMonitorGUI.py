@@ -10,6 +10,7 @@ class MacroMonitorGUI:
     def __init__(
         self,
         macro_name: str,
+        interval_between_instructions: float,
         source_code: list[tuple[int, str]],
         onStart: Callable[[], None],
         onPause: Callable[[], None],
@@ -23,13 +24,14 @@ class MacroMonitorGUI:
         self.root.attributes('-topmost', 1) # Make window always on top
         screen_width = self.root.winfo_screenwidth()
         window_width = 550
-        window_height = 400
+        window_height = 600
         x_position = screen_width - window_width
         y_position = 0
         self.root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
         title = tk.Label(self.root, text=f"'{macro_name}'", font=("Arial", 18))
-        self.label = tk.Label(self.root, text=MacroStatus.READY.name, font=("Arial", 11, "bold"))
-        updateBtn = tk.Button(self.root, text="Update", command=onUpdate, font=("Arial", 12))
+        self.label = tk.Label(self.root, text=MacroStatus.READY.name, font=("Arial", 14, "bold"))
+        interval_between_instructions_s_label = tk.Label(self.root, text=f"Interval Between Instructions: {interval_between_instructions}s", font=("Arial", 13))
+        # updateBtn = tk.Button(self.root, text="Update", command=onUpdate, font=("Arial", 12))
         self.startBtn = tk.Button(self.root, text=RVariables.start_btn_text, command=onStart, font=("Arial", 12))
         self.pauseBtn = tk.Button(self.root, text=RVariables.pause_btn_text, command=onPause, font=("Arial", 12))
         self.stopBtn = tk.Button(self.root, text=RVariables.stop_btn_text, command=lambda: onStop(True), font=("Arial", 12))
@@ -40,7 +42,7 @@ class MacroMonitorGUI:
         option_menu = tk.OptionMenu(self.root, selected_option, "1 min", "5 mins", "10 mins", "30 mins", "60 mins", command=_onSchedule)
         
         # Create a code list
-        self.listbox = tk.Listbox(self.root, font=("Arial", 12), width=window_width, ) # height=20
+        self.listbox = tk.Listbox(self.root, font=("Arial", 12), width=60, height=20)# )
         for code_line in source_code:
             code_line = code_line[1]
             self.listbox.insert(tk.END, code_line)
@@ -57,7 +59,8 @@ class MacroMonitorGUI:
         
         # Packing
         title.pack(padx=5, pady=5)
-        updateBtn.pack(padx=5, pady=5)
+        # updateBtn.pack(padx=5, pady=5)
+        interval_between_instructions_s_label.pack(padx=5, pady=5)
         self.label.pack(padx=5, pady=5)
         self.listbox.pack()
         self.startBtn.pack(side=tk.LEFT)

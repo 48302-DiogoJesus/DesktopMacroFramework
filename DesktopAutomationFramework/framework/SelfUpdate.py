@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 
+# Not being used
 def SelfUpdate():
     github_repo_url = "https://github.com/48302-DiogoJesus/DesktopMacroFramework"
     update_command = f"pip install --upgrade --force-reinstall git+{github_repo_url} && pythonw {os.path.abspath(sys.argv[0])} {' '.join(sys.argv[1:])}"
