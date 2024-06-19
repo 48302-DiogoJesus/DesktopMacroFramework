@@ -19,7 +19,7 @@ class MacroMonitorGUI:
     ) -> None:
         self.source_code = source_code
         self.root = tk.Tk()
-        self.root.title("Monitor - DesktopAutomationFramwork") # Minimalist name to avoid conflict with window.select() by title
+        self.root.title("Monitor - DesktopAutomationFramework") # Minimalist name to avoid conflict with window.select() by title
         self.root.attributes('-topmost', 1) # Make window always on top
         screen_width = self.root.winfo_screenwidth()
         window_width = 550
