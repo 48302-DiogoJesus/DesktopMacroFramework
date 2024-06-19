@@ -15,20 +15,13 @@ from ..SelfUpdate import SelfUpdate
 from ...automation.Variables import vars
 
 class Macro:
-    def __init__(self, interval_s: float):
-        interval_s_cmd: float | None = None
-        
+    def __init__(self):
         for i, arg in enumerate(sys.argv):
             if arg.startswith('--interval_s='):
-                interval_s_cmd = float(arg.replace('--interval_s=', ''))
+                RWVariables.time_between_actions_s = float(arg.replace('--interval_s=', ''))
                 del sys.argv[i]
                 break
             
-        if interval_s_cmd is not None and interval_s_cmd >= 0:
-            RWVariables.time_between_actions_s = interval_s_cmd
-        else:
-            RWVariables.time_between_actions_s = interval_s
-        
         self.source_code = get_full_source_code()
         
     def __call__(self, func):

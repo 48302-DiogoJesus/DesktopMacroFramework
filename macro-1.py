@@ -1,6 +1,6 @@
 from DesktopAutomationFramework import vars, keyboard, key, windows, files, gui, Macro, wait, end
 
-@Macro(interval_s=1) # You can increase this while testing and decrease later
+@Macro()
 def macro():
     gui.show("1")
     gui.show("2")

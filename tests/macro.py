@@ -1,6 +1,6 @@
 from DesktopAutomationFramework import keyboard, key, windows, vars, gui, key, Macro, wait, end
 
-@Macro(interval_s=1)
+@Macro()
 def macro():
     variante = gui.options("stock_ej_report", "stock_1", "stock_2")
     

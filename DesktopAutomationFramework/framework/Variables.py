@@ -27,7 +27,7 @@ class RVariables:
 
 # READ-WRITE
 class RWVariables:
-    time_between_actions_s: float = 0
+    time_between_actions_s: float = 1 # default is 1 second
     macroMonitorShared: Optional["MacroMonitorGUI"] = None
     
     stopMacro: bool = False
