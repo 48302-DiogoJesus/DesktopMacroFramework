@@ -2,6 +2,8 @@ from DesktopAutomationFramework import keyboard, key, windows, vars, gui, key, M
 
 @Macro()
 def macro():
+    gui.show(vars.getString("a"))
+    
     v1 = gui.options("a", "b")
     v2 = gui.options("stock_ej_report", "stock_1", "stock_2")
     

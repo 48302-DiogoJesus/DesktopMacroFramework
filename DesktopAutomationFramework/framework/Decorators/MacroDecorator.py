@@ -21,8 +21,6 @@ class Macro:
         for i, arg in enumerate(sys.argv):
             if arg.startswith('--interval_s='):
                 RVariables.time_between_actions_s = float(arg.replace('--interval_s=', ''))
-                del sys.argv[i]
-                break
             
             if arg == '--auto-run':
                 self.auto_run = True
