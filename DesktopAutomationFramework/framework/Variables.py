@@ -24,10 +24,10 @@ class RVariables:
     
     # Control macro pausing (default: not set)
     resumeMacroFlag = threading.Event()
+    time_between_actions_s: float = 1 # default is 1 second
 
 # READ-WRITE
 class RWVariables:
-    time_between_actions_s: float = 1 # default is 1 second
     macroMonitorShared: Optional["MacroMonitorGUI"] = None
     
     stopMacro: bool = False

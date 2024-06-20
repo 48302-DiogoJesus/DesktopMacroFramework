@@ -7,7 +7,7 @@ from .automation.GUI import gui
 from .automation.Files import files
 
 from .automation.Variables import vars
-from .automation.Common import wait, end
+from .automation.Common import wait, end, pause
 
 ## Framework Functionality
 from .framework.Decorators.MacroDecorator import Macro

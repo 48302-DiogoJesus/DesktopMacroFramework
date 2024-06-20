@@ -1,5 +1,4 @@
 import inspect
-import tkinter
 import pygetwindow as gw
 
 from DesktopAutomationFramework.framework.types.CustomErrors import MacroStoppedError

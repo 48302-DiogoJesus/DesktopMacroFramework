@@ -15,10 +15,10 @@ def AutomationDecorator(func):
     def wrapper(*args, **kwargs):
         nonlocal cachedReturnValues
         handleMasterEventsWhileRunning(func, args)
-
+        
         function_line_no = inspect.stack()[1].lineno
-        if RWVariables.macroStartLineNumber is not None and function_line_no < RWVariables.macroStartLineNumber: 
-            return cachedReturnValues[function_line_no]
+        if RWVariables.macroStartLineNumber is not None and function_line_no < RWVariables.macroStartLineNumber:
+            return cachedReturnValues.get(function_line_no, None)
         
         if RWVariables.macroMonitorShared is None: raise Exception("Macro Monitor variable was not initialized (= None)")
         RWVariables.macroMonitorShared.updateInstruction(function_line_no)
@@ -41,7 +41,7 @@ def AutomationDecorator(func):
 
         # Time Between Actions (with a stop/pause check every 50 ms to improve responsiveness)
         start_time = datetime.datetime.now()
-        while (datetime.datetime.now() - start_time).total_seconds() < RWVariables.time_between_actions_s:
+        while (datetime.datetime.now() - start_time).total_seconds() < RVariables.time_between_actions_s:
             time.sleep(0.05) # 50 ms
             handleMasterEventsWhileRunning(func, args)
         

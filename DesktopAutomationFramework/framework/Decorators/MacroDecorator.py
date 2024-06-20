@@ -16,11 +16,16 @@ from ...automation.Variables import vars
 
 class Macro:
     def __init__(self):
+        self.auto_run = False
+        
         for i, arg in enumerate(sys.argv):
             if arg.startswith('--interval_s='):
-                RWVariables.time_between_actions_s = float(arg.replace('--interval_s=', ''))
+                RVariables.time_between_actions_s = float(arg.replace('--interval_s=', ''))
                 del sys.argv[i]
                 break
+            
+            if arg == '--auto-run':
+                self.auto_run = True
             
         self.source_code = get_full_source_code()
         
@@ -35,7 +40,7 @@ class Macro:
             else:
                 print("Output folder already exists")
 
-            def recursive_macro_runner(errored_on_previous_run: bool = False):
+            def recursive_macro_runner(errored_on_previous_run: bool = False, auto_run: bool = False):
                 try:
                     RWVariables.expectedWindowTitle = None
                     RVariables.logger.new_file()
@@ -51,11 +56,16 @@ class Macro:
 
                     print("[READY]")
                     
-                    # Pause and wait until started
-                    RVariables.resumeMacroFlag.clear()
-                    RVariables.resumeMacroFlag.wait()
+                    if not auto_run:
+                        # Start running macro immediately
+                        RVariables.resumeMacroFlag.set()
+                    else:
+                        # Pause and wait until started
+                        RVariables.resumeMacroFlag.clear()
+                        RVariables.resumeMacroFlag.wait()
+                        
                     RWVariables.macroStatus = MacroStatus.RUNNING
-                    print("[RUNNING]")
+                    print("[RUNNING] Auto-Run:", auto_run, RVariables.resumeMacroFlag.is_set())
                     tryUpdateMacroStatusGUI()
                     # Call macro() function
                     func()
@@ -72,17 +82,11 @@ class Macro:
                 finally:
                     print("[FINISHED]")
                     # Call itself again
-                    recursive_macro_runner(errored_on_previous_run)
+                    recursive_macro_runner(errored_on_previous_run, auto_run=False)
             
-            # Start Macro Runner Thread
-            thread = threading.Thread(target=recursive_macro_runner)
-            thread.daemon = True # If main thread dies it dies too
-            thread.start()
-                        
-            # ! Blocks the main thread on tkinter GUI
             RWVariables.macroMonitorShared = MacroMonitorGUI(
                 RVariables.macro_name,
-                RWVariables.time_between_actions_s,
+                RVariables.time_between_actions_s,
                 self.source_code,
                 self.onMacroStartResume,
                 self.onMacroPause,
@@ -91,8 +95,15 @@ class Macro:
                 onUpdate=SelfUpdate
             )
             
+            # Start Macro Runner Thread
+            thread = threading.Thread(target=lambda: recursive_macro_runner(errored_on_previous_run=False, auto_run=self.auto_run))
+            thread.daemon = True # If main thread dies it dies too
+            thread.start()
+            
+            print("HERE")
             updatePlayButtonsConfigs()
             
+            # ! Blocks the main thread on tkinter GUI
             RWVariables.macroMonitorShared.launchGUI()
         
         wrapper() # start execution
@@ -102,8 +113,9 @@ class Macro:
         if RWVariables.macroStatus is MacroStatus.PAUSED or RWVariables.macroStatus is MacroStatus.READY:
             RVariables.resumeMacroFlag.set()
             updatePlayButtonsConfigs()
-            
-    def onMacroPause(self):
+        
+    @staticmethod
+    def onMacroPause():
         if RWVariables.macroStatus is MacroStatus.RUNNING:
             RVariables.resumeMacroFlag.clear()
             updatePlayButtonsConfigs()

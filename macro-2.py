@@ -1,4 +1,4 @@
-from DesktopAutomationFramework import keyboard, key, windows, vars, gui, key, Macro, wait, end
+from DesktopAutomationFramework import keyboard, key, windows, vars, gui, key, Macro, wait, end, pause
 
 @Macro()
 def macro():

@@ -95,6 +95,7 @@ class vars:
 
 def _populate_properties_from_command_line():
     for arg in sys.argv[1:]:
+        if arg.startswith("--"): continue
         key, value = arg.split('=')
         setattr(vars, key, value)
 
