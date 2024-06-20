@@ -14,7 +14,7 @@ class MacroMonitorGUI:
         source_code: list[tuple[int, str]],
         onStart: Callable[[], None],
         onPause: Callable[[], None],
-        onStop:  Callable[[bool], None],
+        onStop:  Callable[[], None],
         onSchedule: Callable[['MacroMonitorGUI', str], None],
         onUpdate: Callable[[], None]
     ) -> None:
@@ -34,7 +34,7 @@ class MacroMonitorGUI:
         # updateBtn = tk.Button(self.root, text="Update", command=onUpdate, font=("Arial", 12))
         self.startBtn = tk.Button(self.root, text=RVariables.start_btn_text, command=onStart, font=("Arial", 12))
         self.pauseBtn = tk.Button(self.root, text=RVariables.pause_btn_text, command=onPause, font=("Arial", 12))
-        self.stopBtn = tk.Button(self.root, text=RVariables.stop_btn_text, command=lambda: onStop(True), font=("Arial", 12))
+        self.stopBtn = tk.Button(self.root, text=RVariables.stop_btn_text, command=onStop, font=("Arial", 12))
         
         selected_option = tk.StringVar(self.root)
         selected_option.set("Schedule Run")
@@ -54,7 +54,7 @@ class MacroMonitorGUI:
             else:
                 selected_index = self.listbox.curselection()[0]
                 RWVariables.macroStartLineNumber = source_code[selected_index][0]
-                onStop(False) # the flag indicates if the stop request was made by the user or the program
+                onStop() # the flag indicates if the stop request was made by the user or the program
         self.listbox.bind("<<ListboxSelect>>", on_item_selected)
         
         # Packing

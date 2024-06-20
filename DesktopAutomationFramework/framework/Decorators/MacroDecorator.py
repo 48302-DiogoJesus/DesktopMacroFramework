@@ -14,18 +14,23 @@ from ..Variables import RVariables, RWVariables
 from ..SelfUpdate import SelfUpdate
 from ...automation.Variables import vars
 
+
 class Macro:
+    source_code: list[tuple[int, str]] = []
+    
     def __init__(self):
+        global source_code
         self.auto_run = False
+        self.exit_after_run = False
+        Macro.source_code = get_full_source_code()
         
-        for i, arg in enumerate(sys.argv):
+        for arg in sys.argv:
             if arg.startswith('--interval_s='):
                 RVariables.time_between_actions_s = float(arg.replace('--interval_s=', ''))
-            
-            if arg == '--auto-run':
+            elif arg == '--auto-run':
                 self.auto_run = True
-            
-        self.source_code = get_full_source_code()
+            elif arg == '--exit-after-run':
+                self.exit_after_run = True
         
     def __call__(self, func):
         # Start/Resume       
@@ -43,6 +48,9 @@ class Macro:
                     RWVariables.expectedWindowTitle = None
                     RVariables.logger.new_file()
                     RWVariables.macroStatus = MacroStatus.READY
+                    if RWVariables.macroMonitorShared is not None: RWVariables.macroMonitorShared.updateInstruction(
+                        RWVariables.macroStartLineNumber if RWVariables.macroStartLineNumber is not None else Macro.source_code[0][0]
+                    )
                     updatePlayButtonsConfigs()
                     if not errored_on_previous_run:
                         tryUpdateMacroStatusGUI()
@@ -63,11 +71,10 @@ class Macro:
                         RVariables.resumeMacroFlag.wait()
                         
                     RWVariables.macroStatus = MacroStatus.RUNNING
-                    print("[RUNNING] Auto-Run:", auto_run, RVariables.resumeMacroFlag.is_set())
+                    print("[RUNNING]")
                     tryUpdateMacroStatusGUI()
                     # Call macro() function
                     func()
-                    RWVariables.macroStartLineNumber = None           
                 except Exception as e:
                     errored_on_previous_run = True
                     error_message = str(e)
@@ -78,14 +85,15 @@ class Macro:
                     # if RWVariables.macroMonitorShared is not None:
                     #     RWVariables.macroMonitorShared.showPopup(error_message)
                 finally:
-                    print("[FINISHED]")
+                    if self.exit_after_run:
+                        os._exit(1)
                     # Call itself again
                     recursive_macro_runner(errored_on_previous_run, auto_run=False)
             
             RWVariables.macroMonitorShared = MacroMonitorGUI(
                 RVariables.macro_name,
                 RVariables.time_between_actions_s,
-                self.source_code,
+                Macro.source_code,
                 self.onMacroStartResume,
                 self.onMacroPause,
                 self.onMacroStop,
@@ -98,7 +106,6 @@ class Macro:
             thread.daemon = True # If main thread dies it dies too
             thread.start()
             
-            print("HERE")
             updatePlayButtonsConfigs()
             
             # ! Blocks the main thread on tkinter GUI
@@ -118,18 +125,13 @@ class Macro:
             RVariables.resumeMacroFlag.clear()
             updatePlayButtonsConfigs()
     
-    def onMacroStop(self, manual_stop: bool):
+    def onMacroStop(self):
         if RWVariables.macroStatus is MacroStatus.RUNNING or RWVariables.macroStatus is MacroStatus.PAUSED:
             RWVariables.stopMacro = True
             updatePlayButtonsConfigs()
             if RWVariables.macroStatus is MacroStatus.PAUSED:
                 # Make thread resume in order to realize it should stop
                 RVariables.resumeMacroFlag.set()
-        
-        if manual_stop: 
-            RWVariables.macroStartLineNumber = None
-            if RWVariables.macroMonitorShared is not None:
-                RWVariables.macroMonitorShared.updateInstruction(self.source_code[0][0])
     
     def onMacroSchedule(self, macroMonitor: MacroMonitorGUI, time: str):
         start_time = datetime.datetime.now() + datetime.timedelta(minutes=float(time))

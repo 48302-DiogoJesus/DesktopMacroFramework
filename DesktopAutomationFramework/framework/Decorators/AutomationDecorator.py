@@ -19,6 +19,8 @@ def AutomationDecorator(func):
         function_line_no = inspect.stack()[1].lineno
         if RWVariables.macroStartLineNumber is not None and function_line_no < RWVariables.macroStartLineNumber:
             return cachedReturnValues.get(function_line_no, None)
+        elif function_line_no == RWVariables.macroStartLineNumber:
+            RWVariables.macroStartLineNumber = None
         
         if RWVariables.macroMonitorShared is None: raise Exception("Macro Monitor variable was not initialized (= None)")
         RWVariables.macroMonitorShared.updateInstruction(function_line_no)
