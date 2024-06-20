@@ -56,7 +56,7 @@ class Macro:
 
                     print("[READY]")
                     
-                    if not auto_run:
+                    if auto_run:
                         # Start running macro immediately
                         RVariables.resumeMacroFlag.set()
                     else:
