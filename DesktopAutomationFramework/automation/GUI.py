@@ -15,23 +15,23 @@ class gui:
 
     @AutomationDecorator
     @staticmethod
-    def show(text: str, title: str = ""):
-        return  _alert(text, title, _tkinter=False)
+    def show(text, title = ""):
+        return  _alert(str(text), str(title), _tkinter=False)
 
     @AutomationDecorator
     @staticmethod
-    def confirm(text: str, title: str = "") -> bool:
-        return _confirm(text, title, buttons=(YES, NO), _tkinter=False) == YES
+    def confirm(text, title = "") -> bool:
+        return _confirm(str(text), str(title), buttons=(YES, NO), _tkinter=False) == YES
     
     @AutomationDecorator
     @staticmethod
-    def customWindow(text: str, title: str = "", buttons: Any = (OK, CANCEL)):
-        return _confirm(text, title, buttons, _tkinter=False)
+    def customWindow(text, title = "", buttons: Any = (OK, CANCEL)):
+        return _confirm(str(text), str(title), buttons, _tkinter=False)
 
     @AutomationDecorator
     @staticmethod
-    def ask(text: str, title: str = "", default: str = "") -> str:
-        res = _prompt(text, title, default)
+    def ask(text, title = "", default = "") -> str:
+        res = _prompt(str(text), str(title), default)
         if res is None:
             raise Exception("User did not answer input.ask")
         return res
