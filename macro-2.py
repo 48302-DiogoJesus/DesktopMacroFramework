@@ -2,9 +2,18 @@ from DesktopAutomationFramework import keyboard, key, windows, vars, gui, key, M
 
 @Macro()
 def macro():
-    name = gui.ask("name: ")
-    gui.show(1)
-    gui.show(name)
-    gui.show(3)
+    
+    keyboard.keys(key.win, "r")
+    keyboard.write(vars.user_dir)
+    keyboard.keys(key.enter)
+    
+    windows.wait("Diogo")
+    
+    keyboard.keys(key.alt)
+    keyboard.keys(key.enter)
+    keyboard.keys(key.down, repeat_times=12)
+    
+    
+    
     
     end()

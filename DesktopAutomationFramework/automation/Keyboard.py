@@ -17,7 +17,7 @@ class keyboard:
 
     @AutomationDecorator
     @staticmethod
-    def keys(*args: _mk | str, repeat_times: int = 1, repeat_interval_s: float = 0.3):
+    def keys(*args: _mk | str, repeat_times: int = 1, repeat_interval_s: float = 0.03):
         keys = [item.lower() if isinstance(item, str) else item for item in args]
         keys = [convert_to_original_key(item) if not isinstance(item, str) else item for item in keys]
 

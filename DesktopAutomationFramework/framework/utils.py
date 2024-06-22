@@ -1,4 +1,6 @@
 import inspect
+import time
+import pyautogui
 import pygetwindow as gw
 
 from DesktopAutomationFramework.framework.types.CustomErrors import MacroStoppedError
@@ -69,29 +71,38 @@ def checkActiveWindow():
     
     try:
         initial_window_title = str(gw.getActiveWindowTitle()).lower()
-    except: 
+    except:
         return
+    
     
     if initial_window_title.find(RWVariables.expectedWindowTitle) != -1:
         return
     
+    
     # Active window is not the expected one. Try changing it
     windows = gw.getWindowsWithTitle(RWVariables.expectedWindowTitle)
-
-    if windows:
+    
+    if len(windows) > 0:
+        # Very important! If user clicks out and time.sleep() is not called, the window will be None
+        time.sleep(1)
+        
+        # gw.getWindowsWithTitle(windows[0].title)
+        print("GOTO ", windows[0].title)
         window = windows[0]
         window.activate()
-        window.show()
+        
+        time.sleep(1)
 
         try:
             actual_window_title = str(gw.getActiveWindowTitle()).lower()
+            print("WENT TO", actual_window_title)
         except: 
             return
         
         # Active window is not the expected one. Try changing it
         if actual_window_title.find(RWVariables.expectedWindowTitle) != -1:
             # SUCCESS: Able to recover (PRINTING WRONG VAR)
-            print("Recovered window", "From:", initial_window_title, "To:", RWVariables.expectedWindowTitle)
+            print("Recovered window", "From:", initial_window_title, "To:", actual_window_title)
             return
         else:
             raise Exception("Was not in expected window and could not recover. Expected:", RWVariables.expectedWindowTitle, "Got:", initial_window_title)
@@ -137,8 +148,7 @@ def get_full_source_code() -> list[tuple[int, str]]:
     
     source_lines, start_line = inspect.getsourcelines(caller_frame)
     source_lines = [(start_line + i + 1, line.rstrip('\n')) for i, line in enumerate(source_lines)]
-    source_lines = filter(lambda x: x[1] != "", source_lines)
-    source_lines = list(source_lines)[:-1]
+    source_lines = list(filter(lambda x: x[1] != "", source_lines))
     index = next((i for i, line in enumerate(source_lines) if "def macro(" in line[1]), None)
     if index is not None:
         source_lines = source_lines[index+1:]

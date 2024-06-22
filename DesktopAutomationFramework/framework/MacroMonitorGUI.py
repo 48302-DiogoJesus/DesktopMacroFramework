@@ -42,7 +42,7 @@ class MacroMonitorGUI:
         option_menu = tk.OptionMenu(self.root, selected_option, "1 min", "5 mins", "10 mins", "30 mins", "60 mins", command=_onSchedule)
         
         # Create a code list
-        self.listbox = tk.Listbox(self.root, font=("Arial", 12), width=60, height=20)# )
+        self.listbox = tk.Listbox(self.root, font=("Arial", 12), width=60, height=15)# )
         for code_line in source_code:
             code_line = code_line[1]
             self.listbox.insert(tk.END, code_line)

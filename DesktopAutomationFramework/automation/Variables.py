@@ -7,37 +7,42 @@ from DesktopAutomationFramework.framework.Variables import RVariables
 from ..framework.Decorators.AutomationDecorator import AutomationDecorator
 
 class _t:
-    @AutomationDecorator
+    # @AutomationDecorator
     @property
     def year(self):
         return _td.now().year
 
-    @AutomationDecorator
+    # @AutomationDecorator
     @property
     def month(self):
         return _td.now().month
 
-    @AutomationDecorator
+    # @AutomationDecorator
     @property
     def day(self):
         return _td.now().day
 
-    @AutomationDecorator
+    # @AutomationDecorator
     @property
     def hour(self):
         return _td.now().hour
 
-    @AutomationDecorator
+    # @AutomationDecorator
     @property
     def minute(self):
         return _td.now().minute
 
-    @AutomationDecorator
+    # @AutomationDecorator
     @property
     def second(self):
         return _td.now().second
+    
+    @property
+    def date(self):
+        ''' ex: 02-04-2023 '''
+        return _td.now().strftime("%d-%m-%Y")
 
-    @AutomationDecorator
+    # @AutomationDecorator
     def strftime(self, format_str):
         """ 
         %d day    (ex: 02)
@@ -50,12 +55,11 @@ class _t:
         """
         return _td.now().strftime(format_str)
     
-
 class vars:
     # Fixed Variables
     time = _t()
     output_folder = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "output")
-    user_dir = "%userprofile%"
+    user_dir = os.path.expanduser("~")
 
     # Variables from invocation. Ex: pythonw macro.py reports_number=10 variant=FA
     @staticmethod

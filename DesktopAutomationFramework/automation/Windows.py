@@ -49,7 +49,7 @@ class windows:
             time_passed_s += 0.1
 
             if time_passed_s > timeout_s:
-                raise Exception(f"Window containing '{actual_window_title}' not found")
+                raise Exception(f"Expected window '{partial_title}'. Actual window '{actual_window_title}'")
             else:
                 continue
 
