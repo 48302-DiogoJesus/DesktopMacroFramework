@@ -3,7 +3,7 @@ import inspect
 import time
 from typing import Any, Optional
 
-from ..utils import handleMasterEventsWhileRunning
+from ..utils import checkActiveWindow, handleMasterEventsWhileRunning
 from ..Variables import RWVariables, RVariables
 
 # Put on Automation functions. Called for each function. E.g., once for wait()
@@ -24,6 +24,10 @@ def AutomationDecorator(func):
         
         if RWVariables.macroMonitorShared is None: raise Exception("Macro Monitor variable was not initialized (= None)")
         RWVariables.macroMonitorShared.updateInstruction(function_line_no)
+        
+        className: str = func.__qualname__.split('.')[0]
+        if className != "windows":
+            checkActiveWindow()
 
         # Execute operation
         try:

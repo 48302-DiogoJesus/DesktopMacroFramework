@@ -9,8 +9,6 @@ from ..framework.types.MacroStatus import MacroStatus
 from ..framework.Variables import RVariables, RWVariables
 
 def handleMasterEventsWhileRunning(func, args):
-    checkActiveWindow()
-    
     if RWVariables.stopMacro:
         RWVariables.stopMacro = False
         raise MacroStoppedError("Macro Stopped")
@@ -23,7 +21,6 @@ def handleMasterEventsWhileRunning(func, args):
     updatePlayButtonsConfigs()
     
     RVariables.resumeMacroFlag.wait()
-    checkActiveWindow()
 
     if RWVariables.stopMacro:
         RWVariables.stopMacro = False
@@ -33,7 +30,6 @@ def handleMasterEventsWhileRunning(func, args):
             
     updatePlayButtonsConfigs()
     tryUpdateMacroStatusGUI()
-    checkActiveWindow()
 
 def updatePlayButtonsConfigs():
     ENABLED_BG = "white" 
@@ -74,10 +70,9 @@ def checkActiveWindow():
     except:
         return
     
-    
-    if initial_window_title.find(RWVariables.expectedWindowTitle) != -1:
+    # initial_window_title can be None sometimes (e.g., Windows Bar open). Just ignore that case
+    if initial_window_title is None or initial_window_title.find(RWVariables.expectedWindowTitle) != -1:
         return
-    
     
     # Active window is not the expected one. Try changing it
     windows = gw.getWindowsWithTitle(RWVariables.expectedWindowTitle)
@@ -87,7 +82,6 @@ def checkActiveWindow():
         time.sleep(1)
         
         # gw.getWindowsWithTitle(windows[0].title)
-        print("GOTO ", windows[0].title)
         window = windows[0]
         window.activate()
         
@@ -95,7 +89,6 @@ def checkActiveWindow():
 
         try:
             actual_window_title = str(gw.getActiveWindowTitle()).lower()
-            print("WENT TO", actual_window_title)
         except: 
             return
         

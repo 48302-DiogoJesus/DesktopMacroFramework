@@ -48,9 +48,7 @@ class Macro:
                     RWVariables.expectedWindowTitle = None
                     RVariables.logger.new_file()
                     RWVariables.macroStatus = MacroStatus.READY
-                    if RWVariables.macroMonitorShared is not None: RWVariables.macroMonitorShared.updateInstruction(
-                        RWVariables.macroStartLineNumber if RWVariables.macroStartLineNumber is not None else Macro.source_code[0][0]
-                    )
+                    if RWVariables.macroMonitorShared is not None and RWVariables.macroStartLineNumber is not None: RWVariables.macroMonitorShared.updateInstruction(RWVariables.macroStartLineNumber)
                     updatePlayButtonsConfigs()
                     if not errored_on_previous_run:
                         tryUpdateMacroStatusGUI()

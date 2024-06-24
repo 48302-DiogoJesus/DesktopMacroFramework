@@ -35,3 +35,4 @@ class keyboard:
             # Only wait if there will be a second iteration
             if repeat_times > 1:
                 time.sleep(repeat_interval_s)
+                

@@ -7,6 +7,11 @@ from ..framework.Decorators.AutomationDecorator import AutomationDecorator
 class windows:
     @AutomationDecorator
     @staticmethod
+    def forget():
+        RWVariables.expectedWindowTitle = None
+    
+    @AutomationDecorator
+    @staticmethod
     def wait(partial_title: str, timeout_s: int = 2):
         time_passed_s = 0
 

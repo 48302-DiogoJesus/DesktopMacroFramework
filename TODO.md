@@ -1,0 +1,2 @@
+- Provide a clean template macro.py (backend)
+- Translate other macros

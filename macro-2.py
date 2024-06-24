@@ -13,7 +13,13 @@ def macro():
     keyboard.keys(key.enter)
     keyboard.keys(key.down, repeat_times=12)
     
+    keyboard.keys(key.win)
+    keyboard.write("chrome")
+    keyboard.keys(key.enter)
     
+    windows.wait("New Tab - Google Chrome")
     
+    keyboard.keys(key.ctrl, "l")
+    keyboard.write("nice")
     
     end()
