@@ -3,23 +3,14 @@ from DesktopAutomationFramework import keyboard, key, windows, vars, gui, key, M
 @Macro()
 def macro():
     
-    keyboard.keys(key.win, "r")
-    keyboard.write(vars.user_dir)
-    keyboard.keys(key.enter)
-    
-    windows.wait("Diogo")
-    
-    keyboard.keys(key.alt)
-    keyboard.keys(key.enter)
-    keyboard.keys(key.down, repeat_times=12)
-    
     keyboard.keys(key.win)
-    keyboard.write("chrome")
+    keyboard.write("https://outlook.office.com/people/")
     keyboard.keys(key.enter)
     
-    windows.wait("New Tab - Google Chrome")
+    wait(2)
     
-    keyboard.keys(key.ctrl, "l")
-    keyboard.write("nice")
+    keyboard.keys(key.shift, key.tab, repeat_times=8)
+    keyboard.keys(key.down, repeat_times=3)
+    keyboard.keys(key.enter)
     
     end()

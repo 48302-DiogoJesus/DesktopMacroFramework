@@ -2,7 +2,6 @@ import tkinter as tk
 from typing import Callable
 
 from DesktopAutomationFramework.framework.Variables import RVariables, RWVariables
-from DesktopAutomationFramework.framework.utils import updatePlayButtonsConfigs
 
 from ..framework.types.MacroStatus import MacroStatus
 

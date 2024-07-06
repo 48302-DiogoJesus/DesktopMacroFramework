@@ -4,6 +4,7 @@ import os
 import subprocess
 import sys
 import threading
+import time
 
 from DesktopAutomationFramework.framework.types.CustomErrors import MacroStoppedError
 
@@ -114,6 +115,7 @@ class Macro:
     
     def onMacroStartResume(self):
         if RWVariables.macroStatus is MacroStatus.PAUSED or RWVariables.macroStatus is MacroStatus.READY:
+            time.sleep(3)
             RVariables.resumeMacroFlag.set()
             updatePlayButtonsConfigs()
         
