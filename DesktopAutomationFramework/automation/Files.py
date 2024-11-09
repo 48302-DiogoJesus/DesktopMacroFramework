@@ -3,7 +3,21 @@ from pkgutil import extend_path
 from ..framework.Decorators.AutomationDecorator import AutomationDecorator
 from send2trash import send2trash
 
+
 class files:
+    @AutomationDecorator
+    @staticmethod
+    def listFolderFiles(path: str) -> list[str]:
+        path = os.path.expandvars(path)
+        return os.listdir(path)
+
+    @AutomationDecorator
+    @staticmethod
+    def deleteAllInsideFolder(path: str):
+        path = os.path.expandvars(path)
+        for file in os.listdir(path):
+            os.remove(os.path.join(path, file))
+
     @AutomationDecorator
     @staticmethod
     def exists(path: str) -> bool:
@@ -23,7 +37,9 @@ class files:
                 send2trash(expanded_path)
                 deleted.append(extend_path)
             except Exception as e:
-                raise Exception(f"Deleted: {', '.join(deleted)}; but errored while deleting '{expanded_path}': {str(e)}. ")
+                raise Exception(
+                    f"Deleted: {', '.join(deleted)}; but errored while deleting '{expanded_path}': {str(e)}. "
+                )
 
     @AutomationDecorator
     @staticmethod
@@ -33,7 +49,7 @@ class files:
         ex: createFile("C:\\folder\\myfile.py", "line1", "line2", "line3")
         """
         path = os.path.expandvars(path)
-        with open(path, 'w') as file:
+        with open(path, "w") as file:
             file.writelines(content)
             pass
 
@@ -47,16 +63,16 @@ class files:
     @staticmethod
     def read(path: str) -> str:
         path = os.path.expandvars(path)
-        with open(path, 'r') as file:
+        with open(path, "r") as file:
             return file.read()
-        
+
     @AutomationDecorator
     @staticmethod
     def readLines(path: str) -> list[str]:
         path = os.path.expandvars(path)
-        with open(path, 'r') as file:
+        with open(path, "r") as file:
             return file.readlines()
-        
+
     @AutomationDecorator
     @staticmethod
     def show(path: str):

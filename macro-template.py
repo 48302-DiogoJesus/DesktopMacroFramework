@@ -1,6 +1,18 @@
-from DesktopAutomationFramework import vars, keyboard, key, windows, files, gui, Macro, wait, end, pause
+from DesktopAutomationFramework import (
+    vars,
+    keyboard,
+    key,
+    windows,
+    files,
+    gui,
+    Macro,
+    wait,
+    end,
+    pause,
+)
 
-@Macro() # You can increase this while testing and decrease later
+
+@Macro()
 def macro():
     # GETTING INVOCATION VARIABLES #
 
@@ -9,7 +21,9 @@ def macro():
     reports_number = vars.getNumber("reports_number")
     ## if script is called like: pythonw macro.py macro_variant="variant 1"
     ## ! NOTE: when calling the script use " " if your values have spaces, as shown in the comment above
-    variant: str = vars.getString("macro_variant", accepted_values=["variant 1", "variant 2"])
+    variant: str = vars.getString(
+        "macro_variant", accepted_values=["variant 1", "variant 2"]
+    )
     ## if script is called like: pythonw macro.py location=FA
     location: str = vars.getString("location", accepted_values=["LX", "FA", "PT"])
 
@@ -28,17 +42,13 @@ def macro():
 
     # FILE OPERATIONS #
 
-    ## Show the output folder in Windows File Explorer 
+    ## Show the output folder in Windows File Explorer
     files.show(vars.output_folder)
     ## Opens "C:\users\<your_user>\my_file.csv" on Excel (default program)
     files.show(vars.user_dir + "\\my_file.csv")
     files.createFile(vars.output_folder + "\\file.txt")
     ## Create a file and write to it
-    files.createFile(
-        vars.output_folder + "\\file.txt", 
-        "First line",
-        "Second line"
-    )
+    files.createFile(vars.output_folder + "\\file.txt", "First line", "Second line")
     files.createFolder(vars.output_folder + "\\CSV_Files")
     ## Delete a file/folder
     files.delete(vars.output_folder)
@@ -58,7 +68,9 @@ def macro():
     if not should_proceed:
         end()
     name: str = gui.ask("What is your name?")
-    option_selected: str = gui.options("Variant 1", "Variant 2", "Variant 3", "Variant 4")
+    option_selected: str = gui.options(
+        "Variant 1", "Variant 2", "Variant 3", "Variant 4"
+    )
 
     # OTHER OPERATIONS (MORE GENERIC) #
 
